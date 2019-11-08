@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Document sans nom</title>
+<style>
+	body{
+		background-image:url(images/13ujfrp73kc31.png);
+	}
+	
+	#vie{
+		background-image:url(images/banjo.png);
+		background-size:contain;
+		width:1280px;;
+		height:128px;
+		margin:auto;
+	}
+	
+	#jeu{
+		position:relative;
+		width:425px;
+		height:250px;
+		margin:auto;
+		margin-top:125px;
+		background-color:#FC0;
+		text-align:center;
+		padding:25px;
+		
+		border-radius:20px;
+		border: 8px #F30 solid;
+	}
+	
+	#banjo{
+		position:absolute;
+		width:400px;
+		height:473px;
+		background-image:url(images/Banjo_transparent.png);
+		background-size:contain;
+		right:-350px;
+		bottom:-50px;
+	}
+	#kazooie{
+		position:absolute;
+		width:408px;
+		height:470.5px;
+		background-image:url(images/KazooieTooie1.png);
+		background-size:contain;
+		left:-275px;
+		bottom:-30px;
+	}
+	input[type=number]{
+		margin-top:35px
+	}
+	
+	
+	input[type=button]{
+		margin-top:10px;
+		background-color:#F30;
+		color:#FF6
+	}
+	#resultat{
+		margin:auto;
+		margin-top:35px;
+		display:none;
+		color:#F30
+	}
+		
+	
+</style>
+</head>
+
+<body>
+
+	<div id="vie"></div>
+	
+	<div id="jeu">
+    	<h1>Devinez le chiffre</h1>
+        
+        <div id="resultat"><h3>Trop bas</h3></div>
+        
+    	<input type="number" id="guess"/><br/> 
+    	<input type="button" value="essayer" onClick="hit()"/><br/>
+        <input type="button" value="recommencer" onClick="restart()"/>
+        
+        <div id="banjo"></div>
+        <div id="kazooie"></div>
+
+    </div>
+      
+    
+  
+<script>
+		
+	var réponse=Math.round(Math.random()*100)
+	console.log("réponse="+réponse)
+	
+	var pv=1280
+	
+	var recommencer=new Audio()
+		recommencer.src="sons/recomencer.wav"
+	
+	var degat=new Audio()
+		degat.src="sons/degats.wav"
+		
+	var mort=new Audio()
+		mort.src="sons/Death.mp3"
+		
+	var victoire=new Audio()
+		victoire.src="sons/Jiggy.mp3"
+		
+	function restart(){
+		
+		recommencer.play()
+		réponse=Math.round(Math.random()*100)
+		console.log("réponse="+réponse)
+	
+		pv=1280
+		document.getElementById("vie").style.width=pv+"px"
+		
+		document.getElementById("resultat").style.display="none"
+	}
+	
+	function hit(){
+		var guess=document.getElementById("guess").value;
+		console.log("guess="+guess)
+		
+		if(guess!=réponse){
+		
+			pv=pv-128
+			document.getElementById("vie").style.width=pv+"px"
+		
+			if(pv==0){
+				mort.play()
+				document.getElementById("resultat").style.display="block"
+				document.getElementById("resultat").innerHTML="Vous avez perdu, la bonne réponse était "+réponse
+				
+			}else{
+				
+				degat.play()
+				
+				if(guess>réponse){
+					document.getElementById("resultat").style.display="block"
+					document.getElementById("resultat").innerHTML="Trop haut"
+				}
+				
+				if(guess<réponse){
+					document.getElementById("resultat").style.display="block"
+					document.getElementById("resultat").innerHTML="Trop bas"
+				}
+			}
+		}else{
+			if(guess==réponse){
+				victoire.play()
+				document.getElementById("resultat").style.display="block"
+				document.getElementById("resultat").innerHTML="Bravo"
+			}
+		}
+	}
+	
+</script>
+
+</body>
+</html>
